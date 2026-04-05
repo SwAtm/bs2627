@@ -1,0 +1,11 @@
+# Ignore the master secrets file
+application/config/secrets.php
+
+# Ignore CodeIgniter logs and cache
+application/logs/*.php
+application/cache/*
+!application/cache/index.html
+
+# Ignore environment-specific files
+.env
+.env.*
