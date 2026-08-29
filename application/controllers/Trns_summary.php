@@ -141,7 +141,7 @@ class Trns_summary extends CI_Controller{
 
 
 		function check_editable($pk, $row){
-		//check whether a transaction is editable
+		//check whether a transaction is editable, we do not seem to be using this at all!!
 		$editable=1;
 		if ($row->remark=='Cancelled'):
 		$editable=0;

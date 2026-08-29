@@ -10,8 +10,10 @@ class Chatmitra_library {
     public function __construct() {
         $this->CI =& get_instance();
         $this->CI->config->load('secrets');
-        $this->api_url = $this->CI->config->item('cm_api_url');
-        $this->token = $this->CI->config->item('cm_bearer_token');
+        //$this->api_url = $this->CI->config->item('cm_api_url');
+        //$this->token = $this->CI->config->item('cm_bearer_token');
+        $this->api_url = $this->CI->config->item('wa_api_url');
+        $this->token = $this->CI->config->item('wa_token');
     }
 
     public function send_bill_notification($mobile, $bill_no, $amount, $date, $s3_url) {
@@ -22,7 +24,7 @@ class Chatmitra_library {
 		$clean_bill = str_replace('.pdf', '', $bill_no);
 		$clean_bill = str_replace('_', '-', $clean_bill);
         $date = date("d-m-Y", strtotime($date));
-        $components_json = '[
+        /*$components_json = '[
 					{
 					"type": "header",
 					"parameters": [
@@ -46,7 +48,7 @@ class Chatmitra_library {
 					]';
         
         
-        
+					
 					$data = [
 					"recipient_mobile_number" => $mobile,
 					"messages" => [[
@@ -57,9 +59,44 @@ class Chatmitra_library {
 					"components" => json_decode($components_json, true)
 					]
 					]],
-					"customer_name" => ""
+					"customer_name" => ""*/
+					$data = [
+					"messaging_product" => "whatsapp",
+					"recipient_type"    => "individual",
+					"to"                => $mobile, // 🌟 FIX: Change 'recipient_mobile_number' to 'to'
+					"type"              => "template",
+					"template"          => [
+						"name"     => $template_slug,
+						"language" => [
+							"code" => "en_US"
+						],
+						"components" => [
+							[
+								"type" => "header",
+								"parameters" => [
+									[
+										"type" => "document",
+										"document" => [
+											"link"     => $s3_url,
+											"filename" => $bill_no
+										]
+									]
+								]
+							],
+							[
+								"type" => "body",
+								"parameters" => [
+									["type" => "text", "text" => $clean_bill],
+									["type" => "text", "text" => $amount],
+									["type" => "text", "text" => $date]
+								]
+							]
+						]
+					]
+				];
 
-];
+
+
       return $this->_execute_curl($data);
     }
 
