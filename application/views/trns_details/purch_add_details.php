@@ -115,6 +115,9 @@ document.getElementById("hsn").addEventListener("blur", async function() {
             resultBox.style.color = "green";
         } else if (data.status === "new") {
             resultBox.style.color = "red";
+            resultBox.style.fontSize = "30px";
+			resultBox.style.fontWeight = "bold";
+
         } else {
             resultBox.style.color = "orange"; // for "error" or fallback
         }
