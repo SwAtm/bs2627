@@ -115,7 +115,7 @@ document.getElementById("hsn").addEventListener("blur", async function() {
             resultBox.style.color = "green";
         } else if (data.status === "new") {
             resultBox.style.color = "red";
-            resultBox.style.fontSize = "30px";
+            resultBox.style.fontSize = "20px";
 			resultBox.style.fontWeight = "bold";
 
         } else {
